@@ -88,7 +88,6 @@ int main()
 									  //оживл€ем врагов
 		for (it = enemies.begin(); it != enemies.end(); it++)
 		{
-
 			(*it)->update(TileMap, time); //запускаем метод update()
 		}
 
@@ -122,7 +121,7 @@ int main()
 				if (TileMap[i][j] == ' ')  s_map.setTextureRect(IntRect(0, 0, 32, 32)); //свободное поле
 				if (TileMap[i][j] == 's')  s_map.setTextureRect(IntRect(32, 0, 32, 32)); //враг
 				if ((TileMap[i][j] == '0')) s_map.setTextureRect(IntRect(64, 0, 32, 32)); //граница
-																						  
+
 				s_map.setPosition(j * 32, i * 32);
 				window.draw(s_map);
 			}
@@ -131,16 +130,20 @@ int main()
 		std::ostringstream playerHealthString, gameTimeString;
 
 		playerHealthString << player.fishFood; gameTimeString << gameTime;//формируем строку
-		text.setString("«доровье: " + playerHealthString.str() + "\n¬рем€ игры: " + gameTimeString.str());//задаем строку тексту
+		text.setString("Ќаш уровень: " + playerHealthString.str() + "\n¬рем€ игры: " + gameTimeString.str() + "\n”ровень рыб: 5");//задаем строку тексту
 		text.setPosition(50, 50);//задаем позицию текста
 		window.draw(text);//рисуем этот текст
 
-		window.draw(player.sprite);//рисуем спрайт объекта УpФ класса УPlayerФ
+		window.draw(player.sprite); //рисуем спрайт объекта УpФ класса УPlayerФ
 
-								   //рисуем врагов
+									//рисуем врагов
 		for (it = enemies.begin(); it != enemies.end(); it++)
 		{
-			window.draw((*it)->sprite); //рисуем enemies объекты
+			if ((*it)->fishFood > 0) //≈сли у врага нету еды (умер), то он не рисуетс€
+			{
+				window.draw((*it)->sprite); //рисуем enemies объекты
+			}
+
 		}
 
 		window.display();
