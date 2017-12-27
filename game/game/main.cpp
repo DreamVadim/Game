@@ -1,4 +1,4 @@
-//branch develop
+//branch release-v1.5
 #include <iostream> 
 #include <sstream>
 #include <SFML/Graphics.hpp>
@@ -33,11 +33,9 @@ int main()
 	int gameTime = 0;//объ€вили игровое врем€, инициализировали.
 
 	Image heroImage;
-	//heroImage.loadFromFile("images/hero.png"); // загружаем изображение игрока
 	heroImage.loadFromFile("images/hero_new.png"); // загружаем изображение игрока
 
 	Image easyEnemyImage;
-	//easyEnemyImage.loadFromFile("images/enemy.png"); // загружаем изображение врага
 	easyEnemyImage.loadFromFile("images/enemy_new.png"); // загружаем изображение врага
 
 	Player player(heroImage, 100, 100, 96, 96, "Player1");//объект класса игрока
@@ -98,14 +96,14 @@ int main()
 			for (it = enemies.begin(); it != enemies.end(); it++) {//бежим по списку врагов
 				if ((player.getRect().intersects((*it)->getRect())))
 				{
-					if (player.fishFood < (*it)->fishFood)
-					{
-						player.fishFood = 0;
+					if (player.fishFood < (*it)->fishFood) // ≈сли у игрока меньше еды, чем у врага, то 
+					{ 
+						player.fishFood = 0; //у игрока забирают всю еду
 						std::cout << "you are lose";
 					}
-					else
+					else //иначе 
 					{
-						(*it)->fishFood = 0;
+						(*it)->fishFood = 0;//забираем всю еду врага
 					}
 
 				}
@@ -136,7 +134,7 @@ int main()
 
 		window.draw(player.sprite); //рисуем спрайт объекта УpФ класса УPlayerФ
 
-									//рисуем врагов
+		//рисуем врагов
 		for (it = enemies.begin(); it != enemies.end(); it++)
 		{
 			if ((*it)->fishFood > 0) //≈сли у врага нету еды (умер), то он не рисуетс€
