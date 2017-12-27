@@ -11,7 +11,7 @@ void Game::randomFoodGenerate(std::string TileMap[], int width, int height) {//р
 	int randomElementX = 0;//переменная для хранения случайного элемента по горизонтали
 	int randomElementY = 0;//переменная для хранения случайного элемента по вертикали
 
-	int countFood = 5;//количество еды
+	int countFood = 2;//количество еды
 
 	while (countFood > 0) {
 		randomElementX = 1 + rand() % (width - 1);//псевдослучайное значение по "x" от 1 до
@@ -19,7 +19,7 @@ void Game::randomFoodGenerate(std::string TileMap[], int width, int height) {//р
 		randomElementY = 1 + rand() % (height - 1);//по "y"
 
 		if (TileMap[randomElementY][randomElementX] == ' ') {//если встретили символ пробел, 
-			TileMap[randomElementY][randomElementX] = 's';  //то ставим туда камень.
+			TileMap[randomElementY][randomElementX] = 's';  //то ставим туда корм.
 			countFood--;
 		}
 	}

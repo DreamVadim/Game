@@ -13,7 +13,7 @@ using namespace sf;
 int main()
 {
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(sf::VideoMode(800, 640, desktop.bitsPerPixel), "Easy Fish");
+	sf::RenderWindow window(sf::VideoMode(1700, 800, desktop.bitsPerPixel), "Easy Fish");
 
 	Font font;//шрифт 
 	font.loadFromFile("CyrilicOld.ttf");//передаем нашему шрифту файл шрифта
@@ -45,14 +45,14 @@ int main()
 	std::list<Entity*>  enemies; //список врагов
 	std::list<Entity*>::iterator it; //итератор чтобы проходить по элементам списка
 
-	const int ENEMY_COUNT = 3;	//максимальное количество врагов в игре
+	const int ENEMY_COUNT = 7;	//максимальное количество врагов в игре
 	int enemiesCount = 0;      //текущее количество врагов в игре
 
 							   //«аполн€ем список объектами врагами
 	for (int i = 0; i < ENEMY_COUNT; i++)
 	{
-		float xr = 150 + rand() % 500; //случайна€ координата врага на поле игры по оси УxФ
-		float yr = 150 + rand() % 350; //случайна€ координата врага на поле игры по оси УyФ
+		float xr = 150 + rand() % 1700; //случайна€ координата врага на поле игры по оси УxФ
+		float yr = 150 + rand() % 500; //случайна€ координата врага на поле игры по оси УyФ
 									   //создаем врагов и помещаем в список
 		enemies.push_back(new Enemy(easyEnemyImage, xr, yr, 96, 96, "EasyEnemy"));
 		enemiesCount += 1; //увеличили счЄтчик врагов
@@ -87,32 +87,41 @@ int main()
 									  //оживл€ем врагов
 		for (it = enemies.begin(); it != enemies.end(); it++)
 		{
+
 			(*it)->update(TileMap, time); //запускаем метод update()
 		}
 
 		//ѕроверка пересечени€ игрока с врагами
-		//≈сли пересечение произошло, то "health = 0", игрок обездвижеваетс€ и 
+		//≈сли пересечение произошло, то "fishFood = 0", игрок обездвижеваетс€ и 
 		//выводитс€ сообщение "you are lose"
 		if (player.life == true) {//если игрок жив
 			for (it = enemies.begin(); it != enemies.end(); it++) {//бежим по списку врагов
-				if ((player.getRect().intersects((*it)->getRect())) && ((*it)->name == "EasyEnemy"))
+				if ((player.getRect().intersects((*it)->getRect())))
 				{
-					player.health = 0;
-					std::cout << "you are lose";
+					if (player.fishFood < (*it)->fishFood)
+					{
+						player.fishFood = 0;
+						std::cout << "you are lose";
+					}
+					else
+					{
+						(*it)->fishFood = 0;
+					}
+
 				}
 			}
 		}
 
 		window.clear();
 
-		/////////////////////////////–исуем карту/////////////////////
+		////////////////////////–исуем карту/////////////////////
 		for (int i = 0; i < HEIGHT_MAP; i++)
 			for (int j = 0; j < WIDTH_MAP; j++)
 			{
 				if (TileMap[i][j] == ' ')  s_map.setTextureRect(IntRect(0, 0, 32, 32)); //свободное поле
 				if (TileMap[i][j] == 's')  s_map.setTextureRect(IntRect(32, 0, 32, 32)); //враг
 				if ((TileMap[i][j] == '0')) s_map.setTextureRect(IntRect(64, 0, 32, 32)); //граница
-				if ((TileMap[i][j] == 'f')) s_map.setTextureRect(IntRect(96, 0, 32, 32));//еда
+																						  //if ((TileMap[i][j] == 'f')) s_map.setTextureRect(IntRect(96, 0, 32, 32));//еда
 
 				s_map.setPosition(j * 32, i * 32);
 				window.draw(s_map);
@@ -121,7 +130,7 @@ int main()
 		//объ€вили переменную здоровь€ и времени
 		std::ostringstream playerHealthString, gameTimeString;
 
-		playerHealthString << player.health; gameTimeString << gameTime;//формируем строку
+		playerHealthString << player.fishFood; gameTimeString << gameTime;//формируем строку
 		text.setString("«доровье: " + playerHealthString.str() + "\n¬рем€ игры: " + gameTimeString.str());//задаем строку тексту
 		text.setPosition(50, 50);//задаем позицию текста
 		window.draw(text);//рисуем этот текст
