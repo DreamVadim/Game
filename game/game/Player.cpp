@@ -55,16 +55,6 @@ void Player::checkCollisionWithMap(std::string TileMap[], float Dx, float Dy) {
 				fishFood += 1;  //ЅерЄм корм
 				TileMap[i][j] = ' '; //«амен€ корма на пробел
 			}
-			//if (TileMap[i][j] == 'f') {
-			//	//playerScore++; //если вз€ли еду					
-			//	fishFood -= 40;//если ударилс€ о врага
-			//	TileMap[i][j] = ' ';//убрали
-			//}
-
-			//if (TileMap[i][j] == 'h') {
-			//  health += 20;//если вз€ли сердечко
-			//  TileMap[i][j] = ' ';//убрали сердечко
-			//}
 		}
 }
 
