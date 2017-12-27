@@ -1,13 +1,13 @@
 #include <SFML\Graphics.hpp>
 //#include "Enemy.h"
 //#include "Entity.h"
-const int HEIGHT_MAP = 20;//размер карты высота
-const int WIDTH_MAP = 25;//размер карты ширина 
+const int HEIGHT_MAP = 20;//размер карты - высота
+const int WIDTH_MAP = 25;//размер карты - ширина 
 
-// Љарта:
+// Карта:
 //  0 - граница
-//  f - еда - генерируетсЯ в main
-//  s - враг - генерируетсЯ в main
+//  f - еда - генерируется в main
+//  s - враг - генерируется в main
 std::string TileMap[HEIGHT_MAP] = {
 	"0000000000000000000000000",
 	"0                       0",
