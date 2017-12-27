@@ -24,22 +24,3 @@ void Game::randomFoodGenerate(std::string TileMap[], int width, int height) {//р
 		}
 	}
 }
-
-//void Game::randomEnemyGenerate(std::string TileMap[], int width, int height) {//рандомно расставляем врагов
-//
-//	int randomElementX = 0;//переменная для хранения случайного элемента по горизонтали
-//	int randomElementY = 0;//переменная для хранения случайного элемента по вертикали
-//
-//	int countEnemy = 5;//количество камней
-//
-//	while (countEnemy > 0) {
-//		randomElementX = 1 + rand() % (width - 1);//псевдослучайное значение по "x" от 1 до
-//												  //ширина карты-1. Ограничение введено чтобы не получать числа бордюра карты
-//		randomElementY = 1 + rand() % (height - 1);//по "y"
-//
-//		if (TileMap[randomElementY][randomElementX] == ' ') {//если встретили символ пробел, 
-//			TileMap[randomElementY][randomElementX] = 's';  //то ставим туда камень.
-//			countEnemy--;
-//		}
-//	}
-//}
