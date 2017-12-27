@@ -10,13 +10,14 @@ using namespace sf;
 
 Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :Entity(image, X, Y, W, H, Name)
 {
+	fishFood = 5;
 	if (name == "EasyEnemy")
 	{
 		//«адаем спрайту один пр€моугольник дл€
 		//вывода одного игрока. IntRect Ц дл€ приведени€ типов
 		sprite.setTextureRect(IntRect(0, 0, w, h));
 		direction = rand() % (3); //Ќаправление движени€ врага задаЄм случайным образом через генератор случайных чисел
-		speed = 0.1; //даем скорость.этот объект всегда двигаетс€
+		speed = 0.05; //даем скорость.этот объект всегда двигаетс€
 		dx = speed;
 	}
 };
@@ -100,7 +101,7 @@ void Enemy::update(std::string TileMap[], float time)
 
 			sprite.setPosition(x, y); //спрайт в позиции (x, y).
 
-			if (health <= 0) { life = false; }//если жизней меньше 0, либо равно 0, то умираем
+			if (fishFood <= 0) { life = false; }//если жизней меньше 0, либо равно 0, то умираем
 		}
 	}
 };

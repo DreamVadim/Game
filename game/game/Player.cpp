@@ -9,7 +9,7 @@
 using namespace sf;
 
 Player::Player(Image &image, float X, float Y, int W, int H, std::string Name) :Entity(image, X, Y, W, H, Name) {
-	playerScore = 0;
+	//playerScore = 0;
 	state = stay;
 	if (name == "Player1") {
 		//Задаем спрайту один прямоугольник для
@@ -52,19 +52,9 @@ void Player::checkCollisionWithMap(std::string TileMap[], float Dx, float Dy) {
 				if (Dx < 0) { x = j * 32 + 32; dx = 0; }// с левым краем карты
 			}
 			if (TileMap[i][j] == 's') {
-				health += 20;  //
-				TileMap[i][j] = ' ';
+				fishFood += 1;  //Берём корм
+				TileMap[i][j] = ' '; //Заменя корма на пробел
 			}
-			if (TileMap[i][j] == 'f') {
-				playerScore++; //если взяли еду					
-				health -= 40;//если ударился о врага
-				TileMap[i][j] = ' ';//убрали
-			}
-
-			//if (TileMap[i][j] == 'h') {
-			//  health += 20;//если взяли сердечко
-			//  TileMap[i][j] = ' ';//убрали сердечко
-			//}
 		}
 }
 
@@ -119,6 +109,6 @@ void Player::update(std::string TileMap[], float time) //метод "оживления/обновл
 
 		sprite.setPosition(x, y); //спрайт в позиции (x, y).
 
-		if (health <= 0) { life = false; }//если жизней меньше 0, либо равно 0, то умираем 
+		if (fishFood <= 0) { life = false; }//если корма меньше 0, либо равно 0, то умираем 
 	}
 };

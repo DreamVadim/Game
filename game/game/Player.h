@@ -11,7 +11,7 @@ using namespace sf;
 class Player :public Entity {
 
 public:
-	int playerScore;
+	//int playerScore;
 
 	Player(Image &image, float X, float Y, int W, int H, std::string Name);
 	//эта переменная может быть только у игрока
