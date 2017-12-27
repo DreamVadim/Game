@@ -17,11 +17,7 @@ Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :En
 		//вывода одного игрока. IntRect – для приведения типов
 		sprite.setTextureRect(IntRect(0, 0, w, h));
 		direction = rand() % (3); //Направление движения врага задаём случайным образом через генератор случайных чисел
-<<<<<<< HEAD
 		speed = 0.05; //даем скорость.этот объект всегда двигается
-=======
-		speed = 0.1; //даем скорость."Этот объект всегда двигается
->>>>>>> 9010aff38cdac28e80c084205b5e833b75379d4b
 		dx = speed;
 	}
 };
