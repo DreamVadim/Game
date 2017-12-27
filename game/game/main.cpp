@@ -3,6 +3,7 @@
 #include <sstream>
 #include <SFML/Graphics.hpp>
 #include "map.h" //подключили код с картой
+#include "Entity.h"
 
 #include <list>
 
