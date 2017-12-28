@@ -10,7 +10,7 @@ using namespace sf;
 
 Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :Entity(image, X, Y, W, H, Name)
 {
-	fishFood = 5;
+	fishFood = 15;
 	if (name == "EasyEnemy")
 	{
 		//Задаем спрайту один прямоугольник для

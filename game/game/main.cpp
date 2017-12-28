@@ -133,7 +133,7 @@ int main()
 		std::ostringstream playerHealthString, gameTimeString;
 		
 		playerHealthString << player.fishFood; gameTimeString << gameTime;//формируем строку
-		text.setString("My level: " + playerHealthString.str() + "\nTime: " + gameTimeString.str() + "\nRed fish level: 5");//задаем строку тексту
+		text.setString("My level: " + playerHealthString.str() + "\nTime: " + gameTimeString.str() + "\nRed fish level: 15");//задаем строку тексту
 		text.setPosition(50, 50);//задаем позицию текста
 		window.draw(text);//рисуем этот текст
 		
