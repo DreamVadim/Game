@@ -1,24 +1,18 @@
-#include <iostream> 
-#include <sstream>
-#include <SFML/Graphics.hpp>
-//#include "map.h" //подключили код с картой
 #include "Player.h"
-#include "Entity.h"
-#include <list>
 
-using namespace sf;
-
-Player::Player(Image &image, float X, float Y, int W, int H, std::string Name) :Entity(image, X, Y, W, H, Name) {
-	//playerScore = 0;
+Player::Player(Image &image, float X, float Y, int W, int H, std::string Name) :Entity(image, X, Y, W, H, Name)
+{
 	state = stay;
-	if (name == "Player1") {
-		//Задаем спрайту один прямоугольник для
-		//вывода одного игрока. IntRect – для приведения типов
+	if (name == "Player1") 
+	{
+		//Создаем спрайту один прямоугольник для
+		//Вывода одного игрока. IntRect для приведения типов
 		sprite.setTextureRect(IntRect(0, 0, w, h));
 	}
 }
 
-void Player::control() {
+void Player::control()
+{
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
 		state = left;
 		speed = 0.1;
@@ -39,76 +33,76 @@ void Player::control() {
 	}
 }
 
-//Метод проверки столкновений с элементами карты
-void Player::checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy) {
-	for (int i = y / 32; i < (y + h) / 32; i++)//проходимся по элементам карты
+void Player::checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy) //Метод проверки столкновений с элементами карты
+{
+	for (int i = y / 32; i < (y + h) / 32; i++) //Проходимся по элементам карты
 		for (int j = x / 32; j < (x + w) / 32; j++)
 		{
-			if (gameMap.TileMap[i][j] == '0')//если элемент тайлик земли
+			if (gameMap.TileMap[i][j] == '0') //Если элемент тайлик земли
 			{
-				if (Dy > 0) { y = i * 32 - h;  dy = 0; }//по Y 
-				if (Dy < 0) { y = i * 32 + 32; dy = 0; }//столкновение с верхними краями 
-				if (Dx > 0) { x = j * 32 - w; dx = 0; }//с правым краем карты
-				if (Dx < 0) { x = j * 32 + 32; dx = 0; }// с левым краем карты
+				if (Dy > 0) { y = i * 32 - h;  dy = 0; } //По Y 
+				if (Dy < 0) { y = i * 32 + 32; dy = 0; } //Столкновение с верхними краями 
+				if (Dx > 0) { x = j * 32 - w; dx = 0; } //С правым краем карты
+				if (Dx < 0) { x = j * 32 + 32; dx = 0; } //С левым краем карты
 			}
 			if (gameMap.TileMap[i][j] == 'f') {
-				fishFood += 1;  //Берём корм
-				gameMap.TileMap[i][j] = ' '; //Заменя корма на пробел
+				fishFood += 1;  //Берём еду
+				gameMap.TileMap[i][j] = ' '; //Замена еды на пробел
 			}
 		}
 }
 
 
-void Player::update(GameMap &gameMap, float time) //метод "оживления/обновления" объекта класса.
+void Player::update(GameMap &gameMap, float time) //Метод "оживления/обновления" объекта класса.
 {
-	if (life) {//проверяем, жив ли герой
-		control();//функция управления персонажем
-		switch (state)//делаются различные действия в зависимости от состояния
+	if (life) { //Проверяем, жив ли герой
+		control(); //Функция управления персонажем
+		switch (state) //Делаются различные действия в зависимости от состояния
 		{
-		case right: {//состояние идти вправо
-			dx = speed;
-			CurrentFrame += 0.005*time;
-			if (CurrentFrame > 3) CurrentFrame -= 3;
-			sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 192, 96, 96));
-			break;
-		}
-		case left: {//состояние идти влево
-			dx = -speed;
-			CurrentFrame += 0.005*time;
-			if (CurrentFrame > 3) CurrentFrame -= 3;
-			sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 96, 96, 96));
-			break;
-		}
-		case up: {//идти вверх
-			dy = -speed;
-			CurrentFrame += 0.005*time;
-			if (CurrentFrame > 3) CurrentFrame -= 3;
-			sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 288, 96, 96));
-			break;
-		}
-		case down: {//идти вниз
-			dy = speed;
-			CurrentFrame += 0.005*time;
-			if (CurrentFrame > 3) CurrentFrame -= 3;
-			sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
-			break;
-		}
-		case stay: {//стоим
-			dy = speed;
-			dx = speed;
-			break;
-		}
+			case right: { //Состояние идти вправо
+				dx = speed;
+				CurrentFrame += 0.005*time;
+				if (CurrentFrame > 3) CurrentFrame -= 3;
+				sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 192, 96, 96));
+				break;
+			}
+			case left: { //Состояние идти влево
+				dx = -speed;
+				CurrentFrame += 0.005*time;
+				if (CurrentFrame > 3) CurrentFrame -= 3;
+				sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 96, 96, 96));
+				break;
+			}
+			case up: { //Идти вверх
+				dy = -speed;
+				CurrentFrame += 0.005*time;
+				if (CurrentFrame > 3) CurrentFrame -= 3;
+				sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 288, 96, 96));
+				break;
+			}
+			case down: { //Идти вниз
+				dy = speed;
+				CurrentFrame += 0.005*time;
+				if (CurrentFrame > 3) CurrentFrame -= 3;
+				sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
+				break;
+			}
+			case stay: { //Стоим
+				dy = speed;
+				dx = speed;
+				break;
+			}
 		}
 
-		x += dx*time; //движение по “X”
-		checkCollisionWithMap(gameMap, dx, 0);//обрабатываем столкновение по Х
-		y += dy*time; //движение по “Y”
-		checkCollisionWithMap(gameMap, 0, dy);//обрабатываем столкновение по Y
+		x += dx*time; //Движение по "X"
+		checkCollisionWithMap(gameMap, dx, 0); //Обрабатываем столкновение по X
+		y += dy*time; //Движение по "Y"
+		checkCollisionWithMap(gameMap, 0, dy); //Обрабатываем столкновение по Y
 
-		speed = 0;    //обнуляем скорость, чтобы персонаж остановился.
+		speed = 0; //ОбнулЯем скорость, чтобы персонаж остановился
 
-		sprite.setPosition(x, y); //спрайт в позиции (x, y).
+		sprite.setPosition(x, y); //Спрайт в позиции (x, y).
 
-		if (fishFood <= 0) { life = false; }//если корма меньше 0, либо равно 0, то умираем 
+		if (fishFood <= 0) { life = false; } //Если еды меньше 0, либо равно 0, то умираем 
 	}
 };

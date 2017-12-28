@@ -1,40 +1,15 @@
-#pragma once
-#include <SFML\Graphics.hpp>
-const int HEIGHT_MAP = 25;//размер карты высота
-const int WIDTH_MAP = 53;//размер карты ширина 
-class GameMap
-{
-public:
-	GameMap();
-	std::string TileMap[HEIGHT_MAP];
-};
+#ifndef _GameMap_H_
+#define _GameMap_H_
+	//--Начало--//
+		#include <SFML\Graphics.hpp>
+		const int HEIGHT_MAP = 25; //Размер карты высота
+		const int WIDTH_MAP = 53; //Размер карты ширина 
 
-/*
-std::string TileMap[HEIGHT] = {
-"00000000000000000000000000000000000000000000000000000",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"0                                                   0",
-"00000000000000000000000000000000000000000000000000000",
-};
-*/
+		class GameMap
+		{
+		public:
+			GameMap();
+			std::string TileMap[HEIGHT_MAP];
+		};
+	//--Конец--//
+#endif

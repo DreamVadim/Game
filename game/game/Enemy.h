@@ -1,20 +1,16 @@
-#pragma once
-#include <iostream> 
-#include <sstream>
-#include <SFML/Graphics.hpp>
-#include "gameMap.h" //подключили код с картой
-#include "Entity.h" 
-#include <list>
-
-using namespace sf;
-
-class Enemy :public Entity
-{
-public:
-	int direction;//направление движени€ врага
-
-	Enemy(Image &image, float X, float Y, int W, int H, std::string Name);
-	void checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy);//ф-ци€ проверки столкновений с картой
-	void update(GameMap &gameMap, float time);
-
-};//класс Enemy закрыт
+#ifndef _Enemy_H_
+#define _Enemy_H_
+	//--Ќачало--//
+		#include "Entity.h"
+		
+		class Enemy :public Entity
+		{
+		public:
+			int direction; //Ќаправление движени€ врага
+			
+			Enemy(Image &image, float X, float Y, int W, int H, std::string Name);
+			void checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy); //‘-ци€ проверки столкновений с картой
+			void update(GameMap &gameMap, float time);
+		};
+	//-- онец--//
+#endif

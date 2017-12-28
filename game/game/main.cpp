@@ -1,8 +1,6 @@
-//branch release-v1.5
 #include <iostream> 
 #include <sstream>
 #include <SFML/Graphics.hpp>
-// #include "map.h" //подключили код с картой
 #include "Entity.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -14,70 +12,71 @@ using namespace sf;
 
 int main()
 {
+	//Создаём окно с той же битовой глубиной пикселей, что и рабочий стол
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(sf::VideoMode(1700, 800, desktop.bitsPerPixel), "Easy Fish");
+	sf::RenderWindow window(sf::VideoMode(1700, 800, desktop.bitsPerPixel), "FishGame"); //Создаём объект окна, в скобках конструктор
 
-	Font font;//шрифт 
-	font.loadFromFile("CyrilicOld.ttf");//передаем нашему шрифту файл шрифта
-	Text text("", font, 20);//создаем объект текст
-	text.setColor(Color::Red);//покрасили текст в красный	text.setStyle(Text::Bold);//жирный текст.
+	Font font; //Шрифт 
+	font.loadFromFile("RobotoBold.ttf"); //Передаем нашему шрифту файл шрифта
+	Text text("", font, 20); //Создаем объект текст
+	text.setColor(Color::White); //Покрасили текст в белый
 
-	Image map_image;//объект изображения для карты
-	map_image.loadFromFile("images/map_new.png");//загружаем файл для карты
-	Texture map;//текстура карты
-	map.loadFromImage(map_image);//заряжаем текстуру картинкой
-	Sprite s_map;//создаём спрайт для карты
-	s_map.setTexture(map);//заливаем текстуру спрайтом
+	Image map_image; //Объект изображения для карты
+	map_image.loadFromFile("images/map_new.png"); //Загружаем файл для карты
+	Texture map; //Текстура карты
+	map.loadFromImage(map_image); //Заряжаем текстуру картинкой
+	Sprite s_map; //Создаём спрайт для карты
+	s_map.setTexture(map); //Заливаем текстуру спрайтом
 
 	Clock clock;
-	Clock gameTimeClock;//переменная игрового времени, будем здесь хранить время игры 
-	int gameTime = 0;//объявили игровое время, инициализировали.
+	Clock gameTimeClock; //Переменная игрового времени, будем здесь хранить время игры 
+	int gameTime = 0; //Объявили игровое время, инициализировали.
 
 	Image heroImage;
-	heroImage.loadFromFile("images/hero_new.png"); // загружаем изображение игрока
+	heroImage.loadFromFile("images/hero_new.png"); //Загружаем изображение игрока
 
 	Image easyEnemyImage;
-	easyEnemyImage.loadFromFile("images/enemy_new.png"); // загружаем изображение врага
+	easyEnemyImage.loadFromFile("images/enemy_new.png"); //Загружаем изображение врага
 
 	Image easyEnemyGreenImage;
-	easyEnemyGreenImage.loadFromFile("images/enemy_new_green.png"); // загружаем изображение врага
+	easyEnemyGreenImage.loadFromFile("images/enemy_new_green.png"); //Загружаем изображение врага
 
 
-	Player player(heroImage, 100, 100, 96, 96, "Player1");//объект класса игрока
+	Player player(heroImage, 100, 100, 96, 96, "Player1"); //Объект класса игрока
 	Game game;
 	GameMap gameMap;
 
-	std::list<Entity*>  enemies; //список врагов
-	std::list<Entity*>::iterator it; //итератор чтобы проходить по элементам списка
+	std::list<Entity*>  enemies; //Список врагов
+	std::list<Entity*>::iterator it; //Итератор чтобы проходить по элементам списка
 
-	const int ENEMY_COUNT = 7;	//максимальное количество врагов в игре
-	int enemiesCount = 0;      //текущее количество врагов в игре
+	const int ENEMY_COUNT = 7;	//Максимальное количество врагов в игре
 
-							   //Заполняем список объектами врагами
+	//Заполняем список объектами врагами
 	for (int i = 0; i < ENEMY_COUNT; i++)
 	{
 		float xr = 150 + rand() % 1700; //случайная координата врага на поле игры по оси “x”
 		float yr = 150 + rand() % 500;  //случайная координата врага на поле игры по оси “y”
 										//создаем врагов и помещаем в список
 		enemies.push_back(new Enemy(easyEnemyImage, xr, yr, 96, 96, "EasyEnemy"));
-		enemiesCount += 1; //увеличили счётчик врагов
 	}
 
-	int createObjectForMapTimer = 0;//Переменная под время для генерирования еды
+	int createObjectForMapTimer = 0; //Переменная под время для генерирования еды
 
 	while (window.isOpen())
 	{
 		float time = clock.getElapsedTime().asMicroseconds();
 
-		if (player.life) gameTime = gameTimeClock.getElapsedTime().asSeconds();//игровое время в секундах идёт вперед, пока жив игрок. 
-																			   //Перезагружать как time его не надо. оно не обновляет логику игры
+		if (player.life) gameTime = gameTimeClock.getElapsedTime().asSeconds(); //Игровое время в секундах идёт вперед, пока жив игрок. 
+
+		//Перезагружать как time его не надо. оно не обновляет логику игры
 		clock.restart();
 		time = time / 800;
 
-		createObjectForMapTimer += time;//наращиваем таймер
-		if (createObjectForMapTimer > 3000) {
-			game.randomFoodGenerate(gameMap.TileMap, WIDTH_MAP, HEIGHT_MAP);//генерация еды
-			createObjectForMapTimer = 0;//обнуляем таймер
+		createObjectForMapTimer += time; //Наращиваем таймер
+		if (createObjectForMapTimer > 11000) 
+		{
+			game.randomFoodGenerate(gameMap.TileMap, WIDTH_MAP, HEIGHT_MAP); //Генерация еды
+			createObjectForMapTimer = 0; //Обнуляем таймер
 		}
 
 		sf::Event event;
@@ -87,70 +86,82 @@ int main()
 				window.close();
 		}
 
-		player.update(gameMap, time); //оживляем объект “player” класса “Player” 
-									  //оживляем врагов
-		for (it = enemies.begin(); it != enemies.end(); it++)
-		{
-			if ((*it)->fishFood < player.fishFood) {
-				(*it)->switchImage(easyEnemyGreenImage);
-			}
-			(*it)->update(gameMap, time); //запускаем метод update()
-		}
+		//--Оживляем героя--НАЧАЛО--//
+			player.update(gameMap, time); //Оживляем объект "player" класса "Player"
+		//--Оживляем героя--КОНЕЦ--//
 
-		//Проверка пересечения игрока с врагами
-		//Если пересечение произошло, то "fishFood = 0", игрок обездвижевается и 
-		//выводится сообщение "you are lose"
-		if (player.life == true) {//если игрок жив
-			for (it = enemies.begin(); it != enemies.end(); it++) {//бежим по списку врагов
-				if ((player.getRect().intersects((*it)->getRect())))
+		//--Оживляем врагов--НАЧАЛО--//
+			for (it = enemies.begin(); it != enemies.end(); it++)
+			{
+				if ((*it)->fishFood < player.fishFood)
 				{
-					if (player.fishFood < (*it)->fishFood) // Если у игрока меньше еды, чем у врага, то 
-					{
-						player.fishFood = 0; //у игрока забирают всю еду
-						std::cout << "you are lose";
-					}
-					else //иначе 
-					{
-						(*it)->fishFood = 0;//забираем всю еду врага
-					}
+					(*it)->switchImage(easyEnemyGreenImage);
+				}
+				(*it)->update(gameMap, time); //Запускаем метод update()
+			}
+		//--Оживляем врагов--КОНЕЦ--//
 
+		//--Проверка пересечения рыб--НАЧАЛО--//
+			if (player.life == true) //Если игрок жив
+			{
+				for (it = enemies.begin(); it != enemies.end(); it++) { //Бежим по списку врагов
+					if ((player.getRect().intersects((*it)->getRect())))
+					{
+						if (player.fishFood < (*it)->fishFood) //Если у игрока меньше еды, чем у врага, то 
+						{
+							player.fishFood = 0; //У игрока забирают всю еду
+							std::cout << "you are lose";
+						}
+						else
+						{
+							(*it)->fishFood = 0; //Забираем всю еду врага
+						}
+
+					}
 				}
 			}
-		}
+		//--Проверка пересечения рыб--КОНЕЦ--//
 
-		window.clear();
+		//--Рисуем карту--НАЧАЛО--//
+			window.clear(); //Очищаем экран перед новой отрисовкой
 
-		////////////////////////Рисуем карту/////////////////////
-		for (int i = 0; i < HEIGHT_MAP; i++)
-			for (int j = 0; j < WIDTH_MAP; j++)
+			for (int i = 0; i < HEIGHT_MAP; i++)
 			{
-				if (gameMap.TileMap[i][j] == ' ')  s_map.setTextureRect(IntRect(0, 0, 32, 32)); //свободное поле
-				if (gameMap.TileMap[i][j] == 'f')  s_map.setTextureRect(IntRect(32, 0, 32, 32)); //еда
-				if ((gameMap.TileMap[i][j] == '0')) s_map.setTextureRect(IntRect(64, 0, 32, 32)); //граница
+				for (int j = 0; j < WIDTH_MAP; j++)
+				{
+					if (gameMap.TileMap[i][j] == ' ')  s_map.setTextureRect(IntRect(0, 0, 32, 32)); //Свободное поле
+					if (gameMap.TileMap[i][j] == 'f')  s_map.setTextureRect(IntRect(32, 0, 32, 32)); //Еда
+					if ((gameMap.TileMap[i][j] == '0')) s_map.setTextureRect(IntRect(64, 0, 32, 32)); //Граница
 
-				s_map.setPosition(j * 32, i * 32);
-				window.draw(s_map);
+					s_map.setPosition(j * 32, i * 32);
+					window.draw(s_map);
+				}
 			}
+		//--Рисуем карту--КОНЕЦ--//
 
-		//объявили переменную здоровья и времени
-		std::ostringstream playerHealthString, gameTimeString;
+		//--Информационный блок (текст в левом верхнем углу)--НАЧАЛО--//
+			std::ostringstream playerFoodString, gameTimeString; //Объявили переменную еды и времени
 
-		playerHealthString << player.fishFood; gameTimeString << gameTime;//формируем строку
-		text.setString("Наш уровень: " + playerHealthString.str() + "\nВремя игры: " + gameTimeString.str() + "\nУровень рыб: 5");//задаем строку тексту
-		text.setPosition(50, 50);//задаем позицию текста
-		window.draw(text);//рисуем этот текст
+			playerFoodString << player.fishFood; gameTimeString << gameTime; //Формируем строку
+			text.setString("My level: " + playerFoodString.str() + "\nTime: " + gameTimeString.str() + "\nRed fish level: 7"); //Задаем строку тексту
+			text.setPosition(50, 50); //Задаем позицию текста
+			window.draw(text); //Рисуем этот текст
+		//--Информационный блок (текст в левом верхнем углу)--КОНЕЦ--//
 
-		window.draw(player.sprite); //рисуем спрайт объекта “p” класса “Player”
+		//--Рисуем героя--НАЧАЛО--//
+			window.draw(player.sprite); //Рисуем спрайт объекта "p" класса "Player"
+		//--Рисуем героя--КОНЕЦ--//
 
-									//рисуем врагов
-		for (it = enemies.begin(); it != enemies.end(); it++)
-		{
-			if ((*it)->fishFood > 0) //Если у врага нету еды (умер), то он не рисуется
+		//--Рисуем врагов--НАЧАЛО--//
+			for (it = enemies.begin(); it != enemies.end(); it++)
 			{
-				window.draw((*it)->sprite); //рисуем enemies объекты
-			}
+				if ((*it)->fishFood > 0) //Если у врага значение еды больше нуля, то мы его рисуем
+				{
+					window.draw((*it)->sprite); //Рисуем enemies объекты	
+				}
 
-		}
+			}
+		//--Рисуем врагов--КОНЕЦ--//
 
 		window.display();
 	}
