@@ -2,7 +2,7 @@
 #include <iostream> 
 #include <sstream>
 #include <SFML/Graphics.hpp>
-//#include "map.h" //подключили код с картой
+#include "gameMap.h" //подключили код с картой
 #include "Entity.h" 
 #include <list>
 
@@ -14,7 +14,7 @@ public:
 	int direction;//направление движения врага
 
 	Enemy(Image &image, float X, float Y, int W, int H, std::string Name);
-	void checkCollisionWithMap(std::string TileMap[], float Dx, float Dy);//ф-ция проверки столкновений с картой
-	void update(std::string TileMap[], float time);
+	void checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy);//ф-ция проверки столкновений с картой
+	void update(GameMap &gameMap, float time);
 
 };//класс Enemy закрыт

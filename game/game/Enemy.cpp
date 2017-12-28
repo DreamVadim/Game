@@ -1,7 +1,7 @@
 #include <iostream> 
 #include <sstream>
 #include <SFML/Graphics.hpp>
-//#include "map.h" //подключили код с картой
+#include "GameMap.h" //подключили код с картой
 #include "Enemy.h" 
 #include "Entity.h" 
 #include <list>
@@ -10,7 +10,7 @@ using namespace sf;
 
 Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :Entity(image, X, Y, W, H, Name)
 {
-	fishFood = 15;
+	fishFood = 5;
 	if (name == "EasyEnemy")
 	{
 		//«адаем спрайту один пр€моугольник дл€
@@ -22,12 +22,17 @@ Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :En
 	}
 };
 
-void Enemy::checkCollisionWithMap(std::string TileMap[], float Dx, float Dy) //ф-ци€ проверки столкновений с картой
+void Enemy::checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy) //ф-ци€ проверки столкновений с картой
 {
 	for (int i = y / 32; i < (y + h) / 32; i++) //проходимс€ по элементам карты
 		for (int j = x / 32; j<(x + w) / 32; j++)
 		{
-			if (TileMap[i][j] == '0')//если элемент - тайлик земли
+			if (j < 0) j == 0;
+			else if (j > WIDTH_MAP - 1) j = WIDTH_MAP - 1;
+			if (i < 0) i == 0;
+			else if (i > HEIGHT_MAP - 1) i = HEIGHT_MAP - 1;
+
+			if (gameMap.TileMap[i][j] == '0')//если элемент - тайлик земли
 			{
 				if (Dy > 0)
 				{
@@ -56,7 +61,7 @@ void Enemy::checkCollisionWithMap(std::string TileMap[], float Dx, float Dy) //ф
 		}
 };
 
-void Enemy::update(std::string TileMap[], float time)
+void Enemy::update(GameMap &gameMap, float time)
 {
 	if (name == "EasyEnemy") //дл€ персонажа с таким именем логика будет такой
 	{
@@ -94,10 +99,10 @@ void Enemy::update(std::string TileMap[], float time)
 			}
 
 			x += dx*time; //движение по УXФ
-			checkCollisionWithMap(TileMap, dx, 0);//обрабатываем столкновение по ’
+			checkCollisionWithMap(gameMap, dx, 0);//обрабатываем столкновение по ’
 
 			y += dy*time; //движение по УYФ
-			checkCollisionWithMap(TileMap, 0, dy);//обрабатываем столкновение по Y
+			checkCollisionWithMap(gameMap, 0, dy);//обрабатываем столкновение по Y
 
 			sprite.setPosition(x, y); //спрайт в позиции (x, y).
 

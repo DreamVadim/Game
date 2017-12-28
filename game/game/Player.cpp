@@ -40,26 +40,26 @@ void Player::control() {
 }
 
 //Метод проверки столкновений с элементами карты
-void Player::checkCollisionWithMap(std::string TileMap[], float Dx, float Dy) {
+void Player::checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy) {
 	for (int i = y / 32; i < (y + h) / 32; i++)//проходимся по элементам карты
 		for (int j = x / 32; j < (x + w) / 32; j++)
 		{
-			if (TileMap[i][j] == '0')//если элемент тайлик земли
+			if (gameMap.TileMap[i][j] == '0')//если элемент тайлик земли
 			{
 				if (Dy > 0) { y = i * 32 - h;  dy = 0; }//по Y 
 				if (Dy < 0) { y = i * 32 + 32; dy = 0; }//столкновение с верхними краями 
 				if (Dx > 0) { x = j * 32 - w; dx = 0; }//с правым краем карты
 				if (Dx < 0) { x = j * 32 + 32; dx = 0; }// с левым краем карты
 			}
-			if (TileMap[i][j] == 's') {
+			if (gameMap.TileMap[i][j] == 'f') {
 				fishFood += 1;  //Берём корм
-				TileMap[i][j] = ' '; //Заменя корма на пробел
+				gameMap.TileMap[i][j] = ' '; //Заменя корма на пробел
 			}
 		}
 }
 
 
-void Player::update(std::string TileMap[], float time) //метод "оживления/обновления" объекта класса.
+void Player::update(GameMap &gameMap, float time) //метод "оживления/обновления" объекта класса.
 {
 	if (life) {//проверяем, жив ли герой
 		control();//функция управления персонажем
@@ -101,9 +101,9 @@ void Player::update(std::string TileMap[], float time) //метод "оживления/обновл
 		}
 
 		x += dx*time; //движение по “X”
-		checkCollisionWithMap(TileMap, dx, 0);//обрабатываем столкновение по Х
+		checkCollisionWithMap(gameMap, dx, 0);//обрабатываем столкновение по Х
 		y += dy*time; //движение по “Y”
-		checkCollisionWithMap(TileMap, 0, dy);//обрабатываем столкновение по Y
+		checkCollisionWithMap(gameMap, 0, dy);//обрабатываем столкновение по Y
 
 		speed = 0;    //обнуляем скорость, чтобы персонаж остановился.
 

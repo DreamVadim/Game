@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "gameMap.h"
 //#include <iostream> 
 //#include <sstream>
 
@@ -22,6 +23,8 @@ public:
 
 	Entity(Image &image, float X, float Y, int W, int H, std::string Name);
 
+	void switchImage(Image &image);
+
 	FloatRect getRect()
 	{
 		//метод получения прямоугольника. его коорд, размеры (шир,высот).
@@ -33,5 +36,5 @@ public:
 		//эта ф-ция нужна для проверки пересечений 
 	}
 
-	virtual void update(std::string TileMap[], float time) = 0;
+	virtual void update(GameMap &gameMap, float time) = 0;
 };

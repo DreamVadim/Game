@@ -2,7 +2,7 @@
 #include <iostream> 
 #include <sstream>
 #include <SFML/Graphics.hpp>
-//#include "map.h" //подключили код с картой
+#include "gameMap.h" //подключили код с картой
 #include "Entity.h"
 
 
@@ -16,6 +16,6 @@ public:
 	Player(Image &image, float X, float Y, int W, int H, std::string Name);
 	//эта переменная может быть только у игрока
 	void control();
-	void update(std::string TileMap[], float time);
-	void checkCollisionWithMap(std::string TileMap[], float Dx, float Dy);
+	void update(GameMap &gameMap, float time);
+	void checkCollisionWithMap(GameMap &gameMap, float Dx, float Dy);
 };

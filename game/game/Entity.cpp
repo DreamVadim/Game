@@ -19,3 +19,8 @@ Entity::Entity(Image &image, float X, float Y, int W, int H, std::string Name)
 	texture.loadFromImage(image); //заносим наше изображение в текстуру
 	sprite.setTexture(texture); //заливаем спрайт текстурой
 }
+
+void Entity::switchImage(Image &image) {
+	texture.loadFromImage(image); //заносим наше изображение в текстуру
+	sprite.setTexture(texture); //заливаем спрайт текстурой
+}
